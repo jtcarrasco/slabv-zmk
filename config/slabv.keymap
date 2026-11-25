@@ -1,0 +1,115 @@
+/*
+ * daemoncat40 for the slabV (ZMK). Ported from the QMK keymap
+ * jtcarrasco/qmk_userspace keyboards/keyboardio/atreus/keymaps/daemoncat40
+ * (2026-11-19), minus the Atreus centre cluster (Home/End/PgUp/PgDn;
+ * those are still on the mouse layer).
+ * Added for wireless: Bluetooth and USB/BLE keys on the FUN layer's right half.
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/outputs.h>
+#include <dt-bindings/zmk/pointing.h>
+
+#define QWTY 0
+#define NUM  1
+#define FUN  2
+#define MOU  3
+
+/* Shortcuts (Super, as in the QMK keymap) */
+#define SC_CUT   &kp LG(X)
+#define SC_COPY  &kp LG(C)
+#define SC_PSTE  &kp LG(V)
+#define SC_SAVE  &kp LG(S)
+#define SC_RFH   &kp LG(R)
+#define SC_AC    &kp LG(N0)
+#define SC_OUT   &kp LG(MINUS)
+#define SC_IN    &kp LG(KP_PLUS)
+
+/* Match QMK's default tap-hold feel (tap unless held past the term). */
+&mt {
+    flavor = "tap-preferred";
+    tapping-term-ms = <200>;
+};
+
+&lt {
+    flavor = "tap-preferred";
+    tapping-term-ms = <200>;
+};
+
+/*
+ * Key positions:
+ *   0  1  2  3  4     5  6  7  8  9
+ *  10 11 12 13 14    15 16 17 18 19
+ *  20 21 22 23 24    25 26 27 28 29
+ *        30 31 32    33 34 35
+ */
+/ {
+    combos {
+        compatible = "zmk,combos";
+        /* Vertical same-column pairs; 150ms like COMBO_TERM in QMK. */
+        combo_del  { timeout-ms = <150>; key-positions = <12 18>; bindings = <&kp DEL>; };
+        combo_sqt  { timeout-ms = <150>; key-positions = <19 29>; bindings = <&kp SQT>; };
+        combo_dqt  { timeout-ms = <150>; key-positions = <9 19>;  bindings = <&kp DQT>; };
+        combo_tild { timeout-ms = <150>; key-positions = <8 18>;  bindings = <&kp TILDE>; };
+        combo_grv  { timeout-ms = <150>; key-positions = <18 28>; bindings = <&kp GRAVE>; };
+        combo_pipe { timeout-ms = <150>; key-positions = <7 17>;  bindings = <&kp PIPE>; };
+        combo_bsls { timeout-ms = <150>; key-positions = <17 27>; bindings = <&kp BSLH>; };
+        combo_plus { timeout-ms = <150>; key-positions = <6 16>;  bindings = <&kp PLUS>; };
+        combo_eql  { timeout-ms = <150>; key-positions = <16 26>; bindings = <&kp EQUAL>; };
+        combo_unds { timeout-ms = <150>; key-positions = <5 15>;  bindings = <&kp UNDER>; };
+        combo_mins { timeout-ms = <150>; key-positions = <15 25>; bindings = <&kp MINUS>; };
+        combo_lbrc { timeout-ms = <150>; key-positions = <4 14>;  bindings = <&kp LBKT>; };
+        combo_rbrc { timeout-ms = <150>; key-positions = <14 24>; bindings = <&kp RBKT>; };
+        combo_lcbr { timeout-ms = <150>; key-positions = <3 13>;  bindings = <&kp LBRC>; };
+        combo_rcbr { timeout-ms = <150>; key-positions = <13 23>; bindings = <&kp RBRC>; };
+        combo_lprn { timeout-ms = <150>; key-positions = <2 12>;  bindings = <&kp LPAR>; };
+        combo_rprn { timeout-ms = <150>; key-positions = <12 22>; bindings = <&kp RPAR>; };
+        combo_bspc { timeout-ms = <150>; key-positions = <11 24>; bindings = <&kp BSPC>; };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        qwerty {
+            display-name = "QWERTY";
+            bindings = <
+&kp Q           &kp W           &kp E           &kp R    &kp T        &kp Y      &kp U      &kp I         &kp O            &kp P
+&kp A           &kp S           &kp D           &kp F    &kp G        &kp H      &kp J      &kp K         &kp L            &mt RGUI SEMI
+&mt LSHFT Z     &mt LCTRL X     &kp C           &kp V    &kp B        &kp N      &kp M      &kp COMMA     &mt RCTRL DOT    &mt RSHFT SLASH
+                                &mt LALT ESC    &mo FUN  &kp TAB      &kp SPACE  &mo NUM    &lt MOU RET
+            >;
+        };
+
+        num {
+            display-name = "NUM";
+            bindings = <
+&kp TILDE       &kp N1          &kp N2          &kp N3   &kp MINUS    &kp DEL    SC_AC      SC_OUT        SC_IN            &kp BSPC
+&kp CAPS        &kp N4          &kp N5          &kp N6   &kp PLUS     &kp LEFT   &kp DOWN   &kp UP        &kp RIGHT        SC_RFH
+&kp LSHFT       &kp N7          &kp N8          &kp N9   &kp EQUAL    SC_SAVE    SC_CUT     SC_COPY       SC_PSTE          &kp RSHFT
+                                &kp N0          &trans   &trans       &kp TAB    &trans     &trans
+            >;
+        };
+
+        fun {
+            display-name = "FUN";
+            bindings = <
+&kp GRAVE       &kp F1          &kp F2          &kp F3   &kp F10      &bt BT_CLR     &bt BT_SEL 0   &bt BT_SEL 1  &bt BT_SEL 2   &bootloader
+&kp CAPS        &kp F4          &kp F5          &kp F6   &kp F11      &bt BT_CLR_ALL &trans         &bt BT_PRV    &bt BT_NXT     &trans
+&kp LSHFT       &kp F7          &kp F8          &kp F9   &kp F12      &out OUT_USB   &out OUT_BLE   &trans        &trans         &trans
+                                &trans          &trans   &trans       &trans         &trans         &trans
+            >;
+        };
+
+        mouse {
+            display-name = "MOUSE";
+            bindings = <
+&kp PSCRN       &trans          &trans          &trans   &trans       &mkp LCLK       &kp PG_DN       &kp PG_UP     &mkp RCLK        &kp HOME
+&trans          &trans          &trans          &trans   &trans       &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP  &mmv MOVE_RIGHT  &kp END
+&trans          &trans          &trans          &trans   &trans       &msc SCRL_LEFT  &msc SCRL_DOWN  &msc SCRL_UP  &msc SCRL_RIGHT  &trans
+                                &trans          &trans   &trans       &trans          &trans          &trans
+            >;
+        };
+    };
+};

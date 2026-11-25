@@ -1,0 +1,6 @@
+if SHIELD_SLABV
+
+config ZMK_KEYBOARD_NAME
+    default "slabV"
+
+endif

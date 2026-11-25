@@ -1,0 +1,8 @@
+file_format: "1"
+id: slabv
+name: slabV
+type: shield
+url: https://github.com/brickbots/slabv
+requires: [pro_micro]
+features:
+  - keys
