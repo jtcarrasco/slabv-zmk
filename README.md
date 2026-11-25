@@ -1,4 +1,4 @@
-# zmk-config-slabv
+# slabv-zmk
 
 ZMK firmware for a wireless [slabV](https://github.com/brickbots/slabv) (36-key MX unibody by brickbots) on a nice!nano v2.
 
